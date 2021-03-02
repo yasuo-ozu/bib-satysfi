@@ -1,4 +1,4 @@
-@import: bib-style
+@require: bib/style-default
 
 let bibliography = [
 (`dirac1928quantum`, InProceedings(|

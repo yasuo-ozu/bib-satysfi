@@ -2,7 +2,7 @@
 @require: itemize
 @require: code
 
-@import: bib-style
+@require: bib/style-default
 @import: bib-content
 
 document (|

@@ -1,0 +1,31 @@
+opam-version: "2.0"
+name: "satysfi-bib-doc"
+version: "0.0.0"
+synopsis: "Citation in SATySFi like BibTeX"
+description: """Citation in SATySFi like BibTeX"""
+
+maintainer: "Yasuo Ozu <yasuo@ozu.email>"
+authors: "shoudai <s.shoudai@gmail.com>"
+license: "UNLICENSED"
+homepage: "https://github.com/shoudai/bib-satysfi"
+bug-reports: "https://github.com/shoudai/bib-satysfi/issues"
+dev-repo: "git+https://github.com/shoudai/bib-satysfi.git"
+
+depends: [
+  "satysfi" {>= "0.0.5" & < "0.0.6"}
+  "satyrographos" {>= "0.0.2" & < "0.0.3"}
+  "satysfi-bib"
+]
+build: [
+  ["satyrographos" "opam" "build"
+   "--name" "bib-doc"
+   "--prefix" "%{prefix}%"
+   "--script" "%{build}%/Satyristes"]
+]
+install: [
+  ["satyrographos" "opam" "install"
+   "--name" "bib-doc"
+   "--prefix" "%{prefix}%"
+   "--script" "%{build}%/Satyristes"]
+]
+

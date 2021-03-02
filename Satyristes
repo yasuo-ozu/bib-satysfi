@@ -1,0 +1,27 @@
+;; For Satyrographos 0.0.2 series
+(version 0.0.2)
+
+(library
+  (name "bib")
+  (version "0.0.0")
+  (sources
+    ((packageDir "src")
+  ))
+  (opam "satysfi-bib.opam")
+  (dependencies
+    ())
+  )
+
+(libraryDoc
+  (name "bib-doc")
+  (version "0.0.0")
+  (workingDirectory "doc")
+  (build
+    ((satysfi "doc.saty" "-o" "doc.pdf")))
+  (sources
+    (
+     (doc "doc.pdf" "doc/doc.pdf")
+	 ))
+  (opam "satysfi-bib-doc.opam")
+  (dependencies
+    ((bib()))))
