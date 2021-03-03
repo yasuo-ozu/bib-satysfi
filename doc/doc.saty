@@ -66,5 +66,13 @@ document (|
         以前に登場したキーが現れた場合は自動的にソートされる \cite([`PhDThesis`;`Peskin`;`novoselov2005two`;`dirac1928quantum`]);。
       }
     >
+    +section{cite-here}<
+        +p {
+            cite-hereを使うと、任意の場所で引用文献を表示することができる。
+        }
+        +p {
+            \cite-here (`Peskin`) (bibliography);
+        }
+    >
     +references(bibliography);
 >

@@ -66,6 +66,14 @@ let convert-author str str-last =
   | `et al.` -> {#it; \italic{et al.}}
   | _ -> {#it; and #it-last;}
 
+let join-authors-etal lst =
+    match lst with
+    | [] -> {}
+    | str1 :: [] -> embed-string str1
+    | str1 :: _ ->
+          let a1 = embed-string str1 in
+          { #a1; \italic{et al.}}
+
 let join-authors lst =
   match List.reverse lst with
   | []                 -> {}
@@ -113,4 +121,52 @@ let item-style ctx bib =
     let year = embed-string (arabic r#year) in
     read-inline ctx {#authors;, \italic{#title;}, #degree;, #school; (#year;).}
 
+let item-style-short ctx bib = 
+  match bib with
+  | (_, InProceedings(r)) ->
+    let authors = join-authors-etal r#author in
+    let booktitle = r#booktitle in
+    let volume = embed-string (arabic r#volume) in
+    let number = r#number in
+    let pages = r#pages in
+    let organization = r#organization in
+    let year = embed-string (arabic r#year) in
+    read-inline ctx {#authors;, in \italic{#booktitle;} (#year;), pp. #pages;.}
+  | (_, Article(r)) -> 
+    let authors = join-authors r#author in
+    let journal = r#journal in
+    let volume = embed-string (arabic r#volume) in
+    let pages = r#pages in
+    let year = embed-string (arabic r#year) in
+    read-inline ctx {\urllink(r#url){#authors;, #journal; (#year;)}.}
+  | (_, Book(r)) -> 
+    let authors = join-authors r#author in
+    let title = r#title in
+    let publisher = r#publisher in
+    let year = embed-string (arabic r#year) in
+    read-inline ctx {#authors;, \italic{#title;}, (#year;).}
+  | (_, Thesis(r)) ->
+    let authors = join-authors r#author in
+    let title = r#title in
+    let degree = r#degree in
+    let school = r#school in
+    let year = embed-string (arabic r#year) in
+    read-inline ctx {#authors;, #school; (#year;).}
+
 let-block ctx +references bibliography = references ctx listing-style item-style bibliography
+
+let-inline ctx \cite-here key bibliography = 
+    match find-bib bibliography key with
+    | None ->
+          let () = display-message (`Cannot fint key ` ^ key) in
+          inline-nil
+    | Some(bib) -> 
+          item-style ctx bib
+
+let-inline ctx \cite-here-short key bibliography = 
+    match find-bib bibliography key with
+    | None ->
+          let () = display-message (`Cannot fint key ` ^ key) in
+          inline-nil
+    | Some(bib) -> 
+          item-style-short ctx bib

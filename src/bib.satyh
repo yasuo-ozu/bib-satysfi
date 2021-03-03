@@ -60,14 +60,18 @@ let key-same key x =
   let (x1, x2) = x in
   if string-same key x1 then true else false
 
+let find-bib bibliography key =
+    let item = ListUtil.find (key-same key) bibliography in
+    Option.bind item (fun n -> List.nth n bibliography)
+
 let key-to-bib bibliography key = 
-  match ListUtil.find (key-same key) bibliography with
+  match find-bib bibliography key with
   | None -> 
   let warning = `Warning : \cite : '` ^ key ^ `' does not exist in biliography lists.` in
   let warning = warning ^ #` Skip in reference list.` in
   let () = display-message warning in 
     (0, None)
-  | Some(n) -> (get-bib-number key, List.nth n bibliography)
+  | Some(b) -> (get-bib-number key, Some(b))
 
 let keys-to-bibs bibliography = 
   let bibs = List.map (key-to-bib bibliography) !keys-cite in
