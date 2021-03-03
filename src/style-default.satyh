@@ -133,20 +133,20 @@ let item-style-short ctx bib =
     let year = embed-string (arabic r#year) in
     read-inline ctx {#authors;, in \italic{#booktitle;} (#year;), pp. #pages;.}
   | (_, Article(r)) -> 
-    let authors = join-authors r#author in
+    let authors = join-authors-etal r#author in
     let journal = r#journal in
     let volume = embed-string (arabic r#volume) in
     let pages = r#pages in
     let year = embed-string (arabic r#year) in
     read-inline ctx {\urllink(r#url){#authors;, #journal; (#year;)}.}
   | (_, Book(r)) -> 
-    let authors = join-authors r#author in
+    let authors = join-authors-etal r#author in
     let title = r#title in
     let publisher = r#publisher in
     let year = embed-string (arabic r#year) in
     read-inline ctx {#authors;, \italic{#title;}, (#year;).}
   | (_, Thesis(r)) ->
-    let authors = join-authors r#author in
+    let authors = join-authors-etal r#author in
     let title = r#title in
     let degree = r#degree in
     let school = r#school in
